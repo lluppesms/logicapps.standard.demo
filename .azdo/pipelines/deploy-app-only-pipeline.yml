@@ -1,0 +1,23 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# Pipeline to deploy Logic Application to existing Function App
+# ------------------------------------------------------------------------------------------------------------------------
+# Note: This pipeline is set to ONLY trigger automatically if the workflow_version.txt file is updated
+# ------------------------------------------------------------------------------------------------------------------------
+# Note: This pipeline needs a variable group "LogicAppDemo"
+#  See ../Docs/Create-Variable-Group.md for details
+# ------------------------------------------------------------------------------------------------------------------------
+name: $(date:yyyy).$(date:MM).$(date:dd)$(rev:.r)
+pool:
+  vmImage: 'ubuntu-latest'
+
+# ----------------------------------------------------------------------------------------------------
+trigger: none
+
+pr: none
+
+# ----------------------------------------------------------------------------------------------------
+stages:
+- template: pipes/logicstd-only-pipe.yml
+  parameters:
+    variableGroupName: 'LogicAppDemo'
+    environments: ['DEMO']

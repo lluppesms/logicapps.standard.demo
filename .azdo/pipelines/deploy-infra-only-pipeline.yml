@@ -1,0 +1,32 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# Pipeline to deploy Azure Resources Only
+# ------------------------------------------------------------------------------------------------------------------------
+# Note: This pipeline needs a variable group "LogicAppDemo"
+#  See ../Docs/Create-Variable-Group.md for details
+# ------------------------------------------------------------------------------------------------------------------------
+name: $(date:yyyy).$(date:MM).$(date:dd)$(rev:.r)
+pool:
+  vmImage: 'ubuntu-latest'
+
+# ----------------------------------------------------------------------------------------------------
+trigger: none
+
+pr: none
+
+#trigger:
+#  branches:
+#    include:
+#    - main
+#  paths:
+#    exclude:
+#      - '*'
+#    include: 
+#      - 'Infrastructure/**/*.yml'
+#      - 'Infrastructure/**/*.bicep'
+
+# ----------------------------------------------------------------------------------------------------
+stages:
+- template: pipes/infra-only-pipe.yml
+  parameters:
+    variableGroupName: 'LogicAppDemo'
+    environments: ['DEMO']

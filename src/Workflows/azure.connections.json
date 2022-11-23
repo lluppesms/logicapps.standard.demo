@@ -1,0 +1,32 @@
+{
+  "managedApiConnections": {
+    "azureblob": {
+      "api": {
+        "id": "/subscriptions/@appsetting('WORKFLOWS_SUBSCRIPTION_ID')/providers/Microsoft.Web/locations/@appsetting('WORKFLOWS_LOCATION_NAME')/managedApis/azureblob"
+      },
+      "connection": {
+        "id": "/subscriptions/@appsetting('WORKFLOWS_SUBSCRIPTION_ID')/resourceGroups/@appsetting('WORKFLOWS_RESOURCE_GROUP_NAME')/providers/Microsoft.Web/connections/@appsetting('BLOB_STORAGE_CONNECTION_NAME')"
+      },
+      "connectionRuntimeUrl": "@appsetting('BLOB_CONNECTION_RUNTIMEURL')",
+      "connectionProperties": {
+        "authentication": {
+          "audience": "https://storage.azure.com/",
+          "type": "ManagedServiceIdentity"
+        }
+      },
+      "authentication": "@parameters('blob_auth')"
+    },
+    "visualstudioteamservices": {
+      "api": {
+        "id": "/subscriptions/a0f86c93-146a-4534-b83e-49090394aa78/providers/Microsoft.Web/locations/eastus/managedApis/visualstudioteamservices"
+      },
+      "connection": {
+        "id": "/subscriptions/a0f86c93-146a-4534-b83e-49090394aa78/resourceGroups/rg-logappstd-design/providers/Microsoft.Web/connections/visualstudioteamservices"
+      },
+      "connectionRuntimeUrl": "https://d0550650dbf6f152.15.common.logic-eastus.azure-apihub.net/apim/visualstudioteamservices/7ad0c66828fc45fdbc7a27a3d3fc58d4",
+      "authentication": {
+        "type": "ManagedServiceIdentity"
+      }
+    }
+  }
+}

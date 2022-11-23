@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+.vscode/*.*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -366,3 +367,5 @@ Workflows/.funcignore
 Workflows/.vscode/launch.json
 Workflows/.vscode/settings.json
 Workflows/.vscode/tasks.json
+
+.azure

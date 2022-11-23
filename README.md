@@ -1,10 +1,20 @@
 # Logic Apps Standard DevOps - Accelerator
 
+[![Open in vscode.dev](https://img.shields.io/badge/Open%20in-vscode.dev-blue)][1]
+
+[1]: https://vscode.dev/github/lluppesms/logicapps.standard.demo/
+
+![azd Compatible](/Docs/images/AZD_Compatible.png)
+
+[![deploy.infra.and.app](https://github.com/lluppesms/logicapps.standard.demo/actions/workflows/deploy-infra-logicapp.yml/badge.svg)](https://github.com/lluppesms/logicapps.standard.demo/actions/workflows/deploy-infra-logicapp.yml)
+
+---
+
 Azure Logic Apps Standard provides an opportunity to enable a traditional developer workflow, and associated benefits(local development, source control, automation) with low code tooling. The goal of this repository is to augment existing documentation to accelerate the use of CICD practices enabled with [Azure Logic Apps Standard](https://docs.microsoft.com/en-us/azure/logic-apps/devops-deployment-single-tenant-azure-logic-apps). This is accomplished by providing a demo implementation and highlighting best practices and workarounds to common challenges.
 
 ***Aligns with traditional CI/CD Delivery Model***
 
-![Pipeline Design](Design/developer-delivery.png)
+![Pipeline Design](Docs/images/developer-delivery.png)
 
 ***Separation of Concerns***
 
@@ -18,7 +28,7 @@ The single-tenant model gives you the capability to separate the concerns betwee
 
 The following diagram shows the dependencies between the demo logic app solution and the infrastructure resources:
 
-![Deployment Pipelines](Design/design-structure.png)
+![Deployment Pipelines](Docs/images/design-structure.png)
 
 ***Hosting***
 
@@ -38,7 +48,7 @@ Azure BlobStorage Managed connector provides access to Azure blob storage.
 
 ## CICD Design
 
-![Pipeline Design](Design/design-cicd-detail.png)
+![Pipeline Design](Docs/images/design-cicd-detail.png)
 
 ---
 
@@ -83,7 +93,12 @@ Follow the prerequisite guide [here](https://docs.microsoft.com/en-us/azure/logi
 
 ### CI/CD Pipeline Setup
 
-#### 1. Azure Environment
+1. [Deploy using AZD Command Line Tool](/Docs/AzdDeploy.md)
+
+2. [Deploy using Azure DevOps](/Docs/AzureDevOps.md)
+
+3. [Deploy using GitHub Actions](/Docs/GitHubActions.md)
+
 
 A Service Principal is required with Owner RBAC to a Resource Group in Azure. The following resources will be created as part of the IaC.
 
@@ -95,37 +110,7 @@ A Service Principal is required with Owner RBAC to a Resource Group in Azure. Th
 
 ---
 
-#### 2. Azure Devops Project
-
-An Azure DevOps project is required for running CICD pipelines. A service connection needs to be created for the pipelines to deploy into the Azure sandbox resource group as shown in the [Create Service Connections](Infrastructure/docs/CreateServiceConnections.md) document.
-
-See also: [Create an Azure Resource Manager service connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-with-an-existing-service-principal)
-
----
-
-#### 3. Azure Devops Variable Groups
-
-The pipelines in this project are customized using an Azure DevOps Variable Group. Variable groups can be created via the command line as shown in the [Create Variable Groups](Infrastructure/docs/Create-Variable-Group.md) document.
-
----
-
-#### 4. Azure Devops Pipelines
-
-A CICD pipeline has been created that combines the CI and CD into one pipeline and deploys one (or more) environment(s) and the application quickly and easily. Edit the "environments:" variable in the pipeline to specify which environments that should be deployed.
-
-- [infra-and-app-pipeline.yml](Infrastructure/deploy/infra-and-app-pipeline.yml)
-
-As an alternative, two separate CI and CD pipelines have been created. Edit the "environments:" variable in the pipeline to specify which environments that should be deployed.
-
-- [app-only-pipeline.yml](Infrastructure/deploy/app-only-pipeline.yml)
-- [infra-only-pipeline.yml](Infrastructure/deploy/infra-only-pipeline.yml)
-
-> Instructions on how to set up an Azure DevOps pipeline can be found in the [Create Pipelines](Infrastructure/docs/Create-Pipeline.md) document.
-
----
-
 ## Reference
-
 
 ### Local Development
 
