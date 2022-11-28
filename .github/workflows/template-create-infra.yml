@@ -63,13 +63,14 @@ jobs:
     - name: Deploy Azure Resources
       uses: azure/arm-deploy@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        resourceGroupName: ${{ env.generatedResourceGroupName }}
-        template: infra/Bicep/main.bicep
-        parameters: >
-          environmentCode=${{ inputs.envCode }}
-          location=${{ inputs.location }}
-          appName=${{ secrets.APP_NAME }}
-          keyVaultOwnerUserId=${{ secrets.KEYVAULT_OWNER_USERID }}
-      continue-on-error: true
+        subscriptionId: '${{ secrets.AZURE_SUBSCRIPTION_ID }}'
+        resourceGroupName: '${{ env.generatedResourceGroupName }}'
+        template: 'infra/Bicep/main.bicep'
+        parameters: environmentCode='${{ inputs.envCode }}' location='${{ inputs.location }}' appName='${{ secrets.APP_NAME }}' keyVaultOwnerUserId='${{ secrets.KEYVAULT_OWNER_USERID }}'
+        # parameters: >
+        #   environmentCode='${{ inputs.envCode }}'
+        #   location='${{ inputs.location }}'
+        #   appName='${{ secrets.APP_NAME }}'
+        #   keyVaultOwnerUserId='${{ secrets.KEYVAULT_OWNER_USERID }}'
+      #continue-on-error: true
       
