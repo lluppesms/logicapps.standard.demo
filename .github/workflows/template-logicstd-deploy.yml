@@ -26,6 +26,7 @@ jobs:
       artifactFolderName: App
       artifactName: logicapp
       artifactZipFile: LA.zip
+      generatedAppEnvName: ${{ secrets.APP_NAME }}-${{ inputs.envCode }}
 
     steps:
     - name: Download build artifacts
@@ -46,5 +47,5 @@ jobs:
     - name: Deploy Logic App Zip
       uses: Azure/functions-action@v1
       with:
-        app-name: ${{ secrets.APP_NAME }}-${{ inputs.envCode }}
+        app-name: ${{ env.generatedAppEnvName }}
         package: .
