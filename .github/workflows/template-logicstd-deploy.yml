@@ -24,8 +24,17 @@ jobs:
 
     env:
       artifactName: logicapp
-      #generatedAppEnvName: 'lll-logicstdg-${{ inputs.envCode }}'
-      generatedAppEnvName: 'lll-logicstdg-demo'
+      #v1 - this worked...
+      #generatedAppEnvName:  'lll-logicstdg-demo'
+
+      #v2 - ?...
+      generatedAppEnvName: 'lll-logicstdg-${{ inputs.envCode }}'
+
+      #v2 - ?...
+      #generatedAppEnvName: '${{ secrets.APP_NAME }}-${{ inputs.envCode }}'
+
+      #v2 - ?...
+      #generatedAppEnvName: ${{ secrets.APP_NAME }}-${{ inputs.envCode }}
 
     steps:
     - name: Download build artifacts
@@ -45,7 +54,7 @@ jobs:
 
     # app-name: The function app name on Azure. (e.g. if your function app can be accessed via https://your-site-name.azurewebsites.net/, then app-name should be your-site-name).
     # package: This is the location in your project to be published. By default, this value is set to ., which means all files and folders in the GitHub repository will be deployed.
-    
+
     - name: Deploy Logic App Zip
       uses: Azure/functions-action@v1
       with:
