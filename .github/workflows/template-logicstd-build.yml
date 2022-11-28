@@ -128,5 +128,5 @@ jobs:
     - name: Publish project zip artifact
       uses: actions/upload-artifact@v2
       with:
-        name: "${{ env.artifactName }}"
-        path: "${{ runner.temp }}/${{ env.artifactZipFile }}"
+        name: ${{ env.artifactName }}
+        path: ${{ runner.temp }}/${{ env.artifactZipFile }}

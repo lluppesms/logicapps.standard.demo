@@ -25,8 +25,8 @@ jobs:
       name: ${{ inputs.envCode }}
     
     env:
-      generatedAppEnvName: '${{ secrets.APP_NAME }}-${{ inputs.envCode }}'
-      generatedResourceGroupName: 'rg-${{ secrets.APP_NAME }}-${{ inputs.envCode }}'
+      generatedAppEnvName: ${{ secrets.APP_NAME }}-${{ inputs.envCode }}
+      generatedResourceGroupName: rg-${{ secrets.APP_NAME }}-${{ inputs.envCode }}
 
     steps:
     - name: Display Variables
