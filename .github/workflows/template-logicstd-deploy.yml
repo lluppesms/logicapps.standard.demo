@@ -32,10 +32,10 @@ jobs:
       with:
         name: ${{ env.artifactName }}
 
-    - name: List Files
-      run: 
-        tree ${{ env.GITHUB_ACTION_PATH }}
-      continue-on-error: true
+    # - name: List Files
+    #   run: 
+    #     tree ${{ env.GITHUB_ACTION_PATH }}
+    #   continue-on-error: true
         
     - name: Log into Azure
       uses: azure/login@v1
