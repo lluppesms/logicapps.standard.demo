@@ -28,9 +28,11 @@ jobs:
       envCode: 'demo'
       location: 'eastus'
 
-  #  infra-dev:
+  # infra-dev:
   #   name: Create DEV Infra
+  #   needs: infra-demo
   #   uses: ./.github/workflows/template-create-infra.yml
   #   secrets: inherit
+  #   with:
   #     envCode: 'dev'
   #     location: 'eastus'

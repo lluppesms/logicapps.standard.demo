@@ -67,9 +67,9 @@ jobs:
         resourceGroupName: ${{ env.generatedResourceGroupName }}
         template: infra/Bicep/main.bicep
         parameters: >
-          environmentCode=${{ inputs.envCode }} 
-          location=${{ inputs.location }} 
-          appName=${{ secrets.APP_NAME }} 
+          environmentCode=${{ inputs.envCode }}
+          location=${{ inputs.location }}
+          appName=${{ secrets.APP_NAME }}
           keyVaultOwnerUserId=${{ secrets.KEYVAULT_OWNER_USERID }}
       continue-on-error: true
       
