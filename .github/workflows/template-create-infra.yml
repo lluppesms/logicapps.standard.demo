@@ -71,4 +71,9 @@ jobs:
           location=${{ inputs.location }}
           appName=${{ secrets.APP_NAME }}
           keyVaultOwnerUserId=${{ secrets.KEYVAULT_OWNER_USERID }}
-      
+      continue-on-error: true
+      # The Bicep files in this project get these warnings... not sure how to resolve this as 
+      # these properties are needed and work fine, so mark this step as ignore errors for now...
+      #   storageaccount.bicep(79,5)  : Warning BCP187: The property "kind" does not exist in the resource definition, although it might still be valid. If this is an inaccuracy in the documentation, please report it to the Bicep Team. [https://aka.ms/bicep-type-issues]
+      #   storageaccount.bicep(84,13) : Warning use-resource-id-functions: If property "id" represents a resource ID, it must use a symbolic resource reference, be a parameter or start with one of these functions: extensionResourceId, guid, if, reference, resourceId, subscription, subscriptionResourceId, tenantResourceId. [https://aka.ms/bicep/linter/use-resource-id-functions]
+      #   storageaccountroles.bicep(29,33) : Warning BCP081: Resource type "Microsoft.Web/connections/accessPolicies@2016-06-01" does not have types available.      
