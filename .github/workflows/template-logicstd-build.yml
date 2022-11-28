@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------------------------
-# GHA Workflow to build a Logic App Standard
+# GHA Reusable Called Workflow to build a Logic App Standard
 # ------------------------------------------------------------------------------------------------------------------------
 # You need to set up secrets in the GitHub Secrets Repository before running these workflows.
 #   See Docs\CreateGitHubSecrets\.md for details
@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.envCode }}
+
     env:
       artifactFolderName: App
       artifactName: logicapp

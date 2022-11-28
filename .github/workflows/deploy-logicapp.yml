@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------------------------
-# GHA Workflow to deploy Azure Resources Only
+# GHA Workflow to deploy Logic App Only
 # ------------------------------------------------------------------------------------------------------------------------
 # You need to set up secrets in the GitHub Secrets Repository before running these workflows.
 #   See Docs\CreateGitHubSecrets\.md for details

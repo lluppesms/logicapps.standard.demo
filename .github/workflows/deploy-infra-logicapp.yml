@@ -38,7 +38,7 @@ jobs:
       location: 'eastus'
 
   # infra-qa:
-  #   name: Create DEV Infra
+  #   name: Create QA Infra
   #   needs: infra-demo
   #   uses: ./.github/workflows/template-create-infra.yml
   #   secrets: inherit
