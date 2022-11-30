@@ -2,12 +2,23 @@
 
 ## 1. Azure DevOps Template Definitions
 
-Typically, you would want to set up the either first option or the second and third option, but not all three jobs.
+### Environment Workflows
 
-- **infra-and-code-pipeline.yml:** Deploys the main.bicep template, builds the function app, then deploys the function app to the Azure Function
-- **infra-only-pipeline.yml:** Deploys the main.bicep template and does nothing else
-- **app-only-pipeline.yml:** Builds the function app and then deploys the function app to the Azure Function
-- **test-harness-build-pipeline.yml:** Builds the console utility that can be used to test the app and then copies the EXE file to a storage account for easy access.
+- **deploy-infra-only-pipeline.yml:** Deploys the main.bicep template and does nothing else.
+
+- **deploy-app-only-pipeline.yml:** Builds the function app and then deploys the function app to the Azure Function
+
+- **deploy-infra-and-code-pipeline.yml:** Deploys the main.bicep template, builds the function app, then deploys the function app to the Azure Function
+
+  *Note: Typically admins will set up the either first and second option - or - the third option, but not all three jobs.*
+
+### Design Workflows
+
+- **design-setup-pipeline.yml:** This job creates the design environment where users can edit their workflows in the portal.
+
+- **design-refresh-workflows-pipeline.yml:** Pipeline which design user manually triggers when they are done making changes in the portal, which will push changes into a branch of this repo and initiate a pull request.
+
+- **design-publish-changes-pipeline.yml:** This pipeline is triggered by a change in the 'Version/workflow_version.txt' file, which is updated by the 'design-refresh-workflows-pipeline' pipeline. This pipeline publishes the workflows in the repository to the desired environments.
 
 ---
 
@@ -26,8 +37,6 @@ These Azure DevOps YML files were designed to run as multi-stage environment dep
 - Create Azure DevOps Variable Groups - see next step in this document (the variables are unique to this project)
 
 - [Create Azure DevOps Pipeline(s)](https://docs.luppes.com/CreateNewPipeline/)
-
-- [Deploy the Azure Resources and Application](./Docs/DeployApplication.md)
 
 ---
 
@@ -53,9 +62,11 @@ az pipelines variable-group create
 
 ---
 
-## 5. Running the Application
+## 5. Using the Portal to Design Logic Apps
 
-[How to run the application](../Docs/RunApplication.md)
+This example was designed allow the user to modify a logic app in the portal and have those changes saved and checked into source control, then deployed to other environment via an automated pipeline
+
+See: [Update Logic App Repository](/Docs/RefreshWorkflowPipeline.md)
 
 ---
 
