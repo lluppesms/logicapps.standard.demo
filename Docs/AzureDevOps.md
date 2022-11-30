@@ -52,8 +52,7 @@ az pipelines variable-group create
   --project='<yourAzDOProject>' 
   --name LogicAppDemo
   --variables 
-      appPrefix='<yourInitials>' 
-      appName='logicstddemo'
+      appName='<yourInitials>-logicstda'
       azureSubscription='<yourSubscriptionName/serviceConnectionName>' 
       region='eastus' 
       keyVaultOwnerUserId='<userSID>'
