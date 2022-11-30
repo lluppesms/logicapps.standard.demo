@@ -93,12 +93,11 @@ Follow the prerequisite guide [here](https://docs.microsoft.com/en-us/azure/logi
 
 ### CI/CD Pipeline Setup
 
-1. [Deploy using AZD Command Line Tool](/Docs/AzdDeploy.md)
+1. [Deploy using Azure DevOps](/Docs/AzureDevOps.md)
 
-2. [Deploy using Azure DevOps](/Docs/AzureDevOps.md)
+2. [Deploy using GitHub Actions](/Docs/GitHubActions.md)
 
-3. [Deploy using GitHub Actions](/Docs/GitHubActions.md)
-
+3. *(not supported yet!) [Deploy using AZD Command Line Tool](/Docs/AzdDeploy.md)*
 
 A Service Principal is required with Owner RBAC to a Resource Group in Azure. The following resources will be created as part of the IaC.
 
