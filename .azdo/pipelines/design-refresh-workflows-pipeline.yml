@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------------------------------------------------
 # Pipeline to scan existing Logic Application and pull down changes to the repository
 # This pipeline needs variable group LogicAppRefresh
-# See docs/Create-Refresh-Variable-Group.md for details on how to create this.
+# See docs/CreateDevOpsVariableGroups.md for details on how to create this.
 # ------------------------------------------------------------------------------------------------------------------------
 name: $(date:yyyy).$(date:MM).$(date:dd)$(rev:.r)
 pool:

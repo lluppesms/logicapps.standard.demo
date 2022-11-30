@@ -23,7 +23,7 @@ Customize and run the following command in an Azure Cloud Shell to create this v
 
 ## Variable Group 'LogicAppRefresh'
 
-The Refresh Workflow pipeline in this project needs the variable group 'LogicAppRefresh' to know where the design environment is located and how it's linked to the Git Repo to be updated.
+The Design Refresh Workflow pipeline in this project needs the variable group 'LogicAppRefresh' to know where the design environment is located and how it's linked to the Git Repo to be updated.
 
 Notes:
 
