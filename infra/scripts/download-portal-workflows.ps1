@@ -1,6 +1,17 @@
+# ------------------------------------------------------------------------------------------------------------------------
+# Script to download Logic App changes from the Azure Portal
+# ------------------------------------------------------------------------------------------------------------------------
+# This script is called from the Pipeline: './.azdo/pipelines/design-refresh-workflows-pipeline.yml'
+# This script is designed to be run in a batch mode and just downloads and overwrites everything
+# ------------------------------------------------------------------------------------------------------------------------
+# Example Execution:
+#   cd "<yourRootFolder>"
+#   ./infra/scripts/download-portal-workflows.ps1 -resourceGroupName "rg-logappstd-demo" -logicAppName "lll-logic-app-std-demo"
+# ------------------------------------------------------------------------------------------------------------------------
+
 param (
-  [string]$resourceGroupName= "yourResourceGroupName",
-  [string]$logicAppName= "yourAppName"
+  [string]$resourceGroupName="yourResourceGroupName",
+  [string]$logicAppName= "yourLogicAppName"
 )
 
 Clear-Host

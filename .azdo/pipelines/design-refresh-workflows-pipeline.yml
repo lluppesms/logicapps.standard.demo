@@ -93,7 +93,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: '$(System.DefaultWorkingDirectory)\Infrastructure\scripts\download-portal-workflows.ps1'
+      filePath: '$(System.DefaultWorkingDirectory)\infra\scripts\download-portal-workflows.ps1'
       arguments: '-resourceGroupName $(resourceGroupName) -logicAppName $(logicAppName)'
     displayName: Download Workflows
 

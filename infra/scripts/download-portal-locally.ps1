@@ -1,9 +1,11 @@
 # ------------------------------------------------------------------------------------------------------------------------
 # Script to download Logic App changes from the Azure Portal
 # ------------------------------------------------------------------------------------------------------------------------
-# Examples:
+# This script is to be run interactively. It prompts to Confirm overwrite, or "Confirm All" before overwriting all files.
+# ------------------------------------------------------------------------------------------------------------------------
+# Example Execution:
 #   cd "<yourRootFolder>"
-#   ./Infrastructure/scripts/download-portal-locally.ps1 -resourceGroupName "rg-logappstd-demo" -logicAppName "lll-logic-app-std-demo"
+#   ./infra/scripts/download-portal-locally.ps1 -resourceGroupName "rg-logappstd-demo" -logicAppName "lll-logic-app-std-demo"
 # ------------------------------------------------------------------------------------------------------------------------
 
 param (
