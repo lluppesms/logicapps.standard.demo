@@ -95,7 +95,7 @@ Follow the prerequisite guide [here](https://docs.microsoft.com/en-us/azure/logi
 
 1. [Deploy using Azure DevOps](/Docs/AzureDevOps.md)
 
-2. [Deploy using GitHub Actions](/Docs/GitHubActions.md)
+2. *(Partially complete) [Deploy using GitHub Actions](/Docs/GitHubActions.md)*
 
 3. *(not supported yet!) [Deploy using AZD Command Line Tool](/Docs/AzdDeploy.md)*
 
