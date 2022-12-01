@@ -17,7 +17,7 @@ Clear-Host
 $baseTargetUri = "https://" + $logicAppName + ".scm.azurewebsites.net/api/vfs/site/wwwroot/"
 $curDir = Get-Location
 $baseOutputPath = $curDir.tostring()
-$baseOutputPath = $baseOutputPath + "\Workflows\"
+$baseOutputPath = $baseOutputPath + "\src\Workflows\"
 
 Write-Host "******** Download Logic App Definitions ********" -Foregroundcolor Green
 Write-Host "Resource Group: $resourceGroupName" -Foregroundcolor Cyan
@@ -64,6 +64,7 @@ $jsonObj | Select-Object -Property Name, Mime | ForEach-Object {
             }
             if ($confirm -eq "Y" -or $confirmAll -eq "Y") {
                 Write-Host "Downloading Config: $thisName to $outputName ..." -Foregroundcolor Green
+                Write-Host "  Writing to $o ..." -Foregroundcolor Green
                 Invoke-WebRequest -Uri $t -Headers @{Authorization = ("Basic {0}" -f $base64AuthInfo) } -Method GET -OutFile $o -ContentType "multipart/form-data"
             }
             else {
@@ -72,7 +73,7 @@ $jsonObj | Select-Object -Property Name, Mime | ForEach-Object {
         }
     }
 
-    if ($_.mime -eq 'inode/directory') {
+    if ($_.mime -eq 'inode/directory' -and $_.name -ne "workflow-designtime") {
         $thisName = $_.name
         $outputName = $_.name
         Write-Host "Downloading Workflow: $thisName ..." -Foregroundcolor Green
@@ -92,6 +93,7 @@ $jsonObj | Select-Object -Property Name, Mime | ForEach-Object {
             $confirm = "Y"
         }
         if ($confirm -eq "Y" -or $confirmAll -eq "Y") {
+            Write-Host "  Writing to $o ..." -Foregroundcolor Green
             New-Item -ItemType Directory -Force -Path $d
             Invoke-WebRequest -Uri $t -Headers @{Authorization = ("Basic {0}" -f $base64AuthInfo) } -Method GET -OutFile $o -ContentType "multipart/form-data"
         } 
