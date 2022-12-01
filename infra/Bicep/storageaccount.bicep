@@ -85,10 +85,10 @@ resource blobStorageConnectionResource 'Microsoft.Web/connections@2016-06-01' = 
         }
         customParameterValues: {}
         displayName: blobStorageConnectionName
-        // parameterValueSet: {
-        //     name: 'managedIdentityAuth'
-        //     values: {}
-        // }
+        parameterValueSet: {
+          name: 'managedIdentityAuth'
+          values: {}
+        }
     }
 }
 var connectionRuntimeUrl = reference(blobStorageConnectionResource.id, blobStorageConnectionResource.apiVersion, 'full').properties.connectionRuntimeUrl

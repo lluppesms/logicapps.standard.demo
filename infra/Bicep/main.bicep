@@ -34,6 +34,8 @@ module blobStorageAccountModule 'storageaccount.bicep' = {
     blobStorageConnectionName: resourceNames.outputs.blobStorageConnectionName
     location: location
     commonTags: commonTags
+    storageAccessTier: 'Hot'
+    allowBlobPublicAccess: true
   }
 }
 
