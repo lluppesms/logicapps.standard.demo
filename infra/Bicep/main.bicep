@@ -103,6 +103,7 @@ module logicAppSettingsModule 'logic-app-settings.bicep' = {
       BLOB_CONNECTION_RUNTIMEURL: blobStorageAccountModule.outputs.connectionRuntimeUrl
       BLOB_STORAGE_CONNECTION_NAME: blobStorageAccountModule.outputs.blobStorageConnectionName
       BLOB_STORAGE_ACCOUNT_NAME: blobStorageAccountModule.outputs.name
+      STORAGE_ACCOUNT_NAME: blobStorageAccountModule.outputs.name
       WORKFLOWS_SUBSCRIPTION_ID: subscription().subscriptionId
       WORKFLOWS_RESOURCE_GROUP_NAME: resourceGroup().name
       WORKFLOWS_LOCATION_NAME: location
