@@ -14,7 +14,7 @@
 
 ### Design Workflows
 
-- **design-setup-pipeline.yml:** This job creates the design environment where users can edit their workflows in the portal.
+- **design-infra-and-app-pipeline.yml:** This job creates the design environment where users can edit their workflows in the portal.
 
 - **design-refresh-workflows-pipeline.yml:** Pipeline which design user manually triggers when they are done making changes in the portal, which will push changes into a branch of this repo and initiate a pull request.
 

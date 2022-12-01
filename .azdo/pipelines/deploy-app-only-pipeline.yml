@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------------------------
-# Pipeline to deploy Logic Application to existing Function App
+# Pipeline to deploy Logic App to existing Azure infrastructure components
 # ------------------------------------------------------------------------------------------------------------------------
 # Note: This pipeline is set to ONLY trigger automatically if the workflow_version.txt file is updated
 # ------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,15 @@ pool:
   vmImage: 'ubuntu-latest'
 
 # ----------------------------------------------------------------------------------------------------
-trigger: none
+trigger:
+ branches:
+   include:
+   - main
+ paths:
+   exclude:
+     - '*'
+   include: 
+     - 'src/Version/workflow_version.txt'
 
 pr: none
 

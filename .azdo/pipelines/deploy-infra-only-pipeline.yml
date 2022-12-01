@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------------------------
-# Pipeline to deploy Azure Resources Only
+# Pipeline to deploy Logic App infrastructure only, not the application
 # ------------------------------------------------------------------------------------------------------------------------
 # Note: This pipeline needs a variable group "LogicAppDemo"
 #  See ../Docs/Create-Variable-Group.md for details
