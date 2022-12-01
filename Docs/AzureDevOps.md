@@ -6,7 +6,7 @@
 
 - **deploy-infra-only-pipeline.yml:** Deploys the main.bicep template and does nothing else.
 
-- **deploy-app-only-pipeline.yml:** Builds the function app and then deploys the function app to the Azure Function
+- **deploy-app-only-pipeline.yml:** Builds the function app and then deploys the function app to the Azure Function. This can also be set up to be automatically triggered by a change to the *'/src/Version/workflow_version.txt'* file, which is updated when the '*design-refresh-workflows-pipeline.yml*' runs
 
 - **deploy-infra-and-code-pipeline.yml:** Deploys the main.bicep template, builds the function app, then deploys the function app to the Azure Function
 

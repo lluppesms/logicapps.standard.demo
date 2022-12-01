@@ -19,7 +19,7 @@ trigger:
    exclude:
      - '*'
    include: 
-     - 'src/Version/workflow_version.txt'
+     - '/src/Version/workflow_version.txt'
 
 pr: none
 
