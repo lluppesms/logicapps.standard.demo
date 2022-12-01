@@ -1,56 +1,56 @@
 {
-    "definition": {
-        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-        "actions": {
-            "Response": {
-                "type": "Response",
-                "kind": "http",
-                "inputs": {
-                    "statusCode": 200
-                },
-                "runAfter": {
-                    "Create_blob_(V2)": [
-                        "Succeeded"
-                    ]
-                }
-            },
-            "Create_blob_(V2)": {
-                "type": "ApiConnection",
-                "inputs": {
-                    "host": {
-                        "connection": {
-                            "referenceName": "azureblob"
-                        }
-                    },
-                    "method": "post",
-                    "body": "@triggerBody()",
-                    "headers": {
-                        "ReadFileMetadataFromServer": true
-                    },
-                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(parameters('storageAcountName')))}/files",
-                    "queries": {
-                        "folderPath": "/myblobs",
-                        "name": "@{utcNow()}",
-                        "queryParametersSingleEncoded": true
-                    }
-                },
-                "runAfter": {},
-                "runtimeConfiguration": {
-                    "contentTransfer": {
-                        "transferMode": "Chunked"
-                    }
-                }
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "Create_blob_(V2)": {
+        "inputs": {
+          "body": "@triggerBody()",
+          "headers": {
+            "ReadFileMetadataFromServer": true
+          },
+          "host": {
+            "connection": {
+              "referenceName": "azureblob_1"
             }
+          },
+          "method": "post",
+          "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(parameters('storageAcountName')))}/files",
+          "queries": {
+            "folderPath": "/myblobs",
+            "name": "@{utcNow()}",
+            "queryParametersSingleEncoded": true
+          }
         },
-        "triggers": {
-            "manual": {
-                "type": "Request",
-                "kind": "Http",
-                "inputs": {}
-            }
+        "runAfter": {},
+        "runtimeConfiguration": {
+          "contentTransfer": {
+            "transferMode": "Chunked"
+          }
         },
-        "contentVersion": "1.0.0.0",
-        "outputs": {}
+        "type": "ApiConnection"
+      },
+      "Response": {
+        "inputs": {
+          "statusCode": 200
+        },
+        "kind": "http",
+        "runAfter": {
+          "Create_blob_(V2)": [
+            "Succeeded"
+          ]
+        },
+        "type": "Response"
+      }
     },
-    "kind": "Stateful"
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "triggers": {
+      "manual": {
+        "inputs": {},
+        "kind": "Http",
+        "type": "Request"
+      }
+    }
+  },
+  "kind": "Stateful"
 }

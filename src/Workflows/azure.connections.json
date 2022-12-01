@@ -27,6 +27,24 @@
       "authentication": {
         "type": "ManagedServiceIdentity"
       }
+    },
+    "azureblob_1": {
+      "api": {
+        "id": "/subscriptions/a0f86c93-146a-4534-b83e-49090394aa78/providers/Microsoft.Web/locations/eastus/managedApis/azureblob"
+      },
+      "connection": {
+        "id": "/subscriptions/a0f86c93-146a-4534-b83e-49090394aa78/resourceGroups/rg-lll-logicstda-design/providers/Microsoft.Web/connections/azureblob"
+      },
+      "connectionRuntimeUrl": "https://d0550650dbf6f152.15.common.logic-eastus.azure-apihub.net/apim/azureblob/818e4192e86543e6bda82c7b3a28ebdb",
+      "connectionProperties": {
+        "authentication": {
+          "audience": "https://storage.azure.com/",
+          "type": "ManagedServiceIdentity"
+        }
+      },
+      "authentication": {
+        "type": "ManagedServiceIdentity"
+      }
     }
   }
 }
