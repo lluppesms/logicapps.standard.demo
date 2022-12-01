@@ -22,7 +22,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2020-06-01' = {
     location: location
     tags: tags
 }
-module resources './Bicep/main.bicep' = {
+module resources '../../infra/Bicep/main.bicep' = {
     name: 'resources-${deploymentSuffix}'
     scope: resourceGroup
     params: {
