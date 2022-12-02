@@ -20,6 +20,8 @@ var tags = union(commonTags, templateTag)
 resource storageAccountResource 'Microsoft.Storage/storageAccounts@2019-06-01' = {
     name: storageAccountName
     location: location
+    //See: https://stackoverflow.com/questions/56076511/azure-functions-access-to-azure-storage-account-firewall?rq=1
+    //location: 'westus' // location
     sku: {
         name: storageSku
     }
