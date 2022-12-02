@@ -55,11 +55,6 @@ jobs:
           displayName: 'Display Variables'
           continueOnError: true
 
-        # The first time the app is created, the deploy step usually fails saying the app is not there yet...
-        - task: Delay@1
-          inputs:
-            delayForMinutes: '1' # string. Required. Delay Time (minutes). Default: 0.
-
         - task: AzureFunctionApp@1
           displayName: 'Deploy Logic App Zip'
           retryCountOnTaskFailure: 3
