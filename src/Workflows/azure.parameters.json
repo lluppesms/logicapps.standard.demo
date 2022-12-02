@@ -4,5 +4,13 @@
         "value": {
             "type": "ManagedServiceIdentity"
         }
+    },
+    "storageAcountName": {
+        "type": "String",
+        "value": "@appsetting('STORAGE_ACCOUNT_NAME')"
+    },
+    "triggerFrequency": {
+        "type": "String",
+        "value": "@appsetting('TRIGGER_FREQUENCY')"
     }
 }
