@@ -12,7 +12,6 @@
 param (
   [string]$resourceGroupName="yourResourceGroupName",
   [string]$logicAppName= "yourLogicAppName"
-  [string]$token=...token
 )
 
 Clear-Host
