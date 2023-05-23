@@ -20,6 +20,7 @@ var baseStorageName = toLower('${sanitizedAppName}${sanitizedEnvironment}str')
 output logicAppServiceName string           = functionAppName
 output logAnalyticsWorkspaceName string     = '${functionAppName}-logs'
 output blobStorageConnectionName string     = '${functionAppName}-blobconnection'
+output serviceBusName string                = toLower('${sanitizedAppName}-svcbus-${sanitizedEnvironment}')
 
 // Key Vaults and Storage Accounts can only be 24 characters long
 output keyVaultName string                  = take(toLower('${sanitizedAppName}${sanitizedEnvironment}vault'), 24)

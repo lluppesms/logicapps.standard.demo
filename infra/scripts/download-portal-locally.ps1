@@ -40,7 +40,7 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0
 $confirmAll = "N"
 Write-Host "Scanning $logicAppName ..." -Foregroundcolor Blue
 Write-Host ""
-Write-Host "Invoke-RestMethod -Uri $baseTargetUri  -Headers @{Authorization = $base64AuthInfo } -Method GET -ContentType 'application/json'"
+Write-Host "Invoke-RestMethod -Uri $baseTargetUri  -Headers @{Authorization = ****** } -Method GET -ContentType 'application/json'"
 # Future: try impersonating user to run this command
 $jsonObj = Invoke-RestMethod -Uri $baseTargetUri  -Headers @{Authorization = ("Basic {0}" -f $base64AuthInfo) } -Method GET -ContentType "application/json"
 $jsonObj | Select-Object -Property Name, Mime | ForEach-Object {

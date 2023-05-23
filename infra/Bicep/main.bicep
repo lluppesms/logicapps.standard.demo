@@ -17,8 +17,11 @@ var commonTags = {
   Environment: environmentCode
 }
 
+var svcBusQueueOrders = 'orders-received'
+var svcBusQueueERP =  'orders-to-d365' 
+
 // --------------------------------------------------------------------------------
-module resourceNames 'resource-names.bicep' = {
+module resourceNames 'resourcenames.bicep' = {
   name: 'resourcenames${deploymentSuffix}'
   params: {
     appName: appName
@@ -39,7 +42,18 @@ module blobStorageAccountModule 'storageaccount.bicep' = {
   }
 }
 
-module logAnalyticsModule 'log-analytics-workspace.bicep' = {
+module servicebusModule 'servicebus.bicep' = {
+  name: 'servicebus${deploymentSuffix}'
+  params: {
+    serviceBusName: resourceNames.outputs.serviceBusName
+    queueNames: [ svcBusQueueOrders, svcBusQueueERP ]
+    location: location
+    commonTags: commonTags
+  }
+}
+
+
+module logAnalyticsModule 'loganalyticsworkspace.bicep' = {
   name: 'logAnalytics${deploymentSuffix}' 
   params: {
     logAnalyticsWorkspaceName: resourceNames.outputs.logAnalyticsWorkspaceName
@@ -48,7 +62,7 @@ module logAnalyticsModule 'log-analytics-workspace.bicep' = {
   }
 }
 
-module logicAppServiceModule 'logic-app-service.bicep' = {
+module logicAppServiceModule 'logicappservice.bicep' = {
   name: 'logicappservice${deploymentSuffix}'
   params: {
     logicAppServiceName:  resourceNames.outputs.logicAppServiceName
@@ -71,7 +85,7 @@ module storageAccountRoleModule 'storageaccountroles.bicep' = {
   }
 }
 
-module keyVaultModule 'key-vault.bicep' = {
+module keyVaultModule 'keyvault.bicep' = {
   name: 'keyvault${deploymentSuffix}'
   params: {
     keyVaultName: resourceNames.outputs.keyVaultName
@@ -82,7 +96,7 @@ module keyVaultModule 'key-vault.bicep' = {
   }
 }
 
-module keyVaultSecret1 'key-vault-secret-storageconnection.bicep' = {
+module keyVaultSecret1 'keyvaultsecretstorageconnection.bicep' = {
   name: 'keyVaultSecret1${deploymentSuffix}'
   dependsOn: [ keyVaultModule, blobStorageAccountModule ]
   params: {
@@ -91,10 +105,30 @@ module keyVaultSecret1 'key-vault-secret-storageconnection.bicep' = {
     storageAccountName: blobStorageAccountModule.outputs.name
   }
 }
+module keyVaultSecret2 'keyvaultsecretservicebusconnection.bicep' = {
+  name: 'keyVaultSecret2${deploymentSuffix}'
+  dependsOn: [ keyVaultModule, servicebusModule ]
+  params: {
+    keyVaultName: keyVaultModule.outputs.name
+    keyName: 'ServiceBusReceiveConnectionString'
+    serviceBusName: servicebusModule.outputs.name
+    accessKeyName: 'listen'
+  }
+}
 
-module logicAppSettingsModule 'logic-app-settings.bicep' = {
+module keyVaultSecret3 'keyvaultsecretservicebusconnection.bicep' = {
+  name: 'keyVaultSecret3${deploymentSuffix}'
+  dependsOn: [ keyVaultModule, servicebusModule ]
+  params: {
+    keyVaultName: keyVaultModule.outputs.name
+    keyName: 'ServiceBusSendConnectionString'
+    serviceBusName: servicebusModule.outputs.name
+    accessKeyName: 'send'
+  }
+}
+
+module logicAppSettingsModule 'logicappsettings.bicep' = {
   name: 'logicAppSettings${deploymentSuffix}'
-  // dependsOn: [  keyVaultSecrets ]
   params: {
     logicAppName: logicAppServiceModule.outputs.name
     logicAppStorageAccountName: logicAppServiceModule.outputs.storageResourceName
@@ -107,6 +141,9 @@ module logicAppSettingsModule 'logic-app-settings.bicep' = {
       WORKFLOWS_SUBSCRIPTION_ID: subscription().subscriptionId
       WORKFLOWS_RESOURCE_GROUP_NAME: resourceGroup().name
       WORKFLOWS_LOCATION_NAME: location
+      BlobStorageConnectionString: '@Microsoft.KeyVault(VaultName=${keyVaultModule.outputs.name};SecretName=BlobStorageConnectionString)'
+      ServiceBusReceiveConnectionString: '@Microsoft.KeyVault(VaultName=${keyVaultModule.outputs.name};SecretName=ServiceBusReceiveConnectionString)'
+      ServiceBusSendConnectionString: '@Microsoft.KeyVault(VaultName=${keyVaultModule.outputs.name};SecretName=ServiceBusSendConnectionString)'
     }
   }
 }

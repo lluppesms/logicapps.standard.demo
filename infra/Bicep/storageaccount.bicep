@@ -1,15 +1,25 @@
 ﻿// --------------------------------------------------------------------------------
 // This BICEP file will create storage account
+// FYI: To purge a storage account with soft delete enabled: > az storage account purge --name storeName
+// --------------------------------------------------------------------------------
+// To deploy this Bicep manually:
+// 	 az login   (do this if not already logged in)
+//   az account set --subscription 1bd3dfe5-ddd8-443c-8d35-31cf3d729c8f
+//   az deployment group create -n lll-storage -g RG-BICEP-WORKSHOP-01 -f 'storageaccount.bicep' -p storageAccountName=lllstoragedemo
 // --------------------------------------------------------------------------------
 param storageAccountName string = 'mystorageaccountname'
-param blobStorageConnectionName string = 'myblobconnectionname'
 param location string = resourceGroup().location
 param commonTags object = {}
 
 @allowed([ 'Standard_LRS', 'Standard_GRS', 'Standard_RAGRS' ])
 param storageSku string = 'Standard_LRS'
-param containerName string = 'myblobs'
 param storageAccessTier string = 'Hot'
+param containerNames array = ['input','output']
+@allowed(['Allow','Deny'])
+param allowNetworkAccess string = 'Allow'
+@description('The IP Addresses that are allowed access to this storage account.')
+
+param blobStorageConnectionName string = 'myblobconnectionname'
 param allowBlobPublicAccess bool = false
 
 // --------------------------------------------------------------------------------
@@ -20,8 +30,6 @@ var tags = union(commonTags, templateTag)
 resource storageAccountResource 'Microsoft.Storage/storageAccounts@2019-06-01' = {
     name: storageAccountName
     location: location
-    //See: https://stackoverflow.com/questions/56076511/azure-functions-access-to-azure-storage-account-firewall?rq=1
-    //location: 'westus' // location
     sku: {
         name: storageSku
     }
@@ -30,11 +38,11 @@ resource storageAccountResource 'Microsoft.Storage/storageAccounts@2019-06-01' =
     properties: {
         networkAcls: {
             bypass: 'AzureServices'
-            virtualNetworkRules: [
-            ]
-            ipRules: [
-            ]
-            defaultAction: 'Allow'
+            defaultAction: allowNetworkAccess
+            ipRules: []
+            // ipRules: (empty(ipRules) ? json('[]') : ipRules)
+            virtualNetworkRules: []
+            //virtualNetworkRules: ((virtualNetworkType == 'External') ? json('[{"id": "${subscription().id}/resourceGroups/${vnetResource}/providers/Microsoft.Network/virtualNetworks/${vnetResource.name}/subnets/${subnetName}"}]') : json('[]'))
         }
         supportsHttpsTrafficOnly: true
         encryption: {
@@ -56,13 +64,9 @@ resource storageAccountResource 'Microsoft.Storage/storageAccounts@2019-06-01' =
     }
 }
 
-resource storageAccountBlobContainerResource 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-04-01' = {
-    name: '${storageAccountResource.name}/default/${containerName}'
-    properties: {}
-}
-
 resource blobServiceResource 'Microsoft.Storage/storageAccounts/blobServices@2019-06-01' = {
-    name: '${storageAccountResource.name}/default'
+    name: 'default'
+    parent: storageAccountResource
     properties: {
         cors: {
             corsRules: [
@@ -74,6 +78,15 @@ resource blobServiceResource 'Microsoft.Storage/storageAccounts/blobServices@201
         }
     }
 }
+
+resource containers 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = [for containerName in containerNames: {
+    name: '${containerName}'
+    parent: blobServiceResource
+    properties: {
+      publicAccess: 'None'
+      metadata: {}
+    }
+  }]
 
 // --------------------------------------------------------------------------------
 resource blobStorageConnectionResource 'Microsoft.Web/connections@2016-06-01' = {
@@ -99,5 +112,4 @@ var connectionRuntimeUrl = reference(blobStorageConnectionResource.id, blobStora
 output id string = storageAccountResource.id
 output name string = storageAccountResource.name
 output connectionRuntimeUrl string = connectionRuntimeUrl
-output blobStorageContainerName string = storageAccountBlobContainerResource.name
 output blobStorageConnectionName string = blobStorageConnectionResource.name
