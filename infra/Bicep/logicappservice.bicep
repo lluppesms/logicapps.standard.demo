@@ -7,6 +7,7 @@ param location string = resourceGroup().location
 param commonTags object = {}
 param logicAnalyticsWorkspaceId string = 'myLogicAnalyticsWorkspaceId'
 param minimumElasticSize int = 1
+param allowBasicAuth bool = true
 
 // --------------------------------------------------------------------------------
 var templateTag = { TemplateFile: '~logic-app-service.bicep' }
@@ -76,7 +77,7 @@ resource logicAppSiteResource 'Microsoft.Web/sites@2021-02-01' = {
       appSettings: [
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~3'
+          value: '~4'
         }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
@@ -84,7 +85,7 @@ resource logicAppSiteResource 'Microsoft.Web/sites@2021-02-01' = {
         }
         {
           name: 'WEBSITE_NODE_DEFAULT_VERSION'
-          value: '~14'
+          value: '8.11.1'
         }
         {
           name: 'AzureWebJobsStorage'
@@ -127,6 +128,14 @@ resource logicAppSiteResource 'Microsoft.Web/sites@2021-02-01' = {
     }
     serverFarmId: logicAppPlanResource.id
     clientAffinityEnabled: false
+  }
+}
+
+resource sitesBasicAuth 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+  parent: logicAppSiteResource
+  name: 'scm'
+  properties: {
+    allow: allowBasicAuth
   }
 }
 

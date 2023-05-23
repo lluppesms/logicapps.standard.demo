@@ -12,6 +12,7 @@
 param (
   [string]$resourceGroupName="yourResourceGroupName",
   [string]$logicAppName= "yourLogicAppName"
+  [string]$token=...token
 )
 
 Clear-Host
@@ -29,6 +30,10 @@ Write-Host "Saving files to $baseOutputPath ..." -Foregroundcolor Cyan
 Write-Host ""
 Write-Host "Getting deployment profile..." -Foregroundcolor Blue
 $profiles = az webapp deployment list-publishing-profiles -g $resourceGroupName -n $logicAppName | Convertfrom-json
+if ($profiles.Count -eq 0) {
+    Write-Host "Error! No deployment profiles found for $logicAppName" -Foregroundcolor Red
+    exit
+}
 # Create Base64 authorization header
 $username = $profiles[0].userName
 $password = $profiles[0].userPWD
@@ -36,6 +41,7 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0
 
 Write-Host "Scanning $logicAppName ..." -Foregroundcolor Blue
 Write-Host ""
+# try running as SP - get token from pipeline variable, change auth header to "Bearer {0}"
 $jsonObj = Invoke-RestMethod -Uri $baseTargetUri  -Headers @{Authorization = ("Basic {0}" -f $base64AuthInfo) } -Method GET -ContentType "application/json"
 $jsonObj | Select-Object -Property Name, Mime | ForEach-Object {
     if ($_.mime -eq 'application/json') {
