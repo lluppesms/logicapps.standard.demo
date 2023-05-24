@@ -1,34 +1,39 @@
 # ----------------------------------------------------------------------------------------------------
-# Code Scanning Template
-# ----------------------------------------------------------------------------------------------------
-# Microsoft Secure DevOps Scan
+# Template to add Azure Secure DevOps Scan
 # To enable this, you must add Azure DevOps Extension to your Azure DevOps Organization
 # See https://marketplace.visualstudio.com/items?itemName=ms-securitydevops.microsoft-security-devops-azdevops
 # ----------------------------------------------------------------------------------------------------
-# PSRule is a static analysis tool for Bicep Files
-# https://marketplace.visualstudio.com/items?itemName=bewhite.psrule-vscode
-# To view the PSRule Output, add the SARIF SAST Scans Tab extension to your organization
-# https://marketplace.visualstudio.com/items?itemName=sariftools.scans
-# ----------------------------------------------------------------------------------------------------
 parameters:
+- name: variableGroupName
+  default: 'myVariableGroup'
 - name: environmentName
   default: 'DEV'
-- name: runDevSecOpsScan
-  default: 'false'
-- name: runPsRuleScan
-  default: 'false'
 
 # ----------------------------------------------------------------------------------------------------
 jobs:
-- deployment: CodeScanDeployment
-  displayName: Initialize Code Scans
+- deployment: SecurityScanDeployment
+  displayName: Initialize Security Scan Deploy
   environment: ${{ parameters.environmentName }}
 
-- ${{ if eq(lower(parameters.runDevSecOpsScan), 'true') }}:
-  - job: SecurityScanJob
-    displayName: MS DevSecOps Scan Job
-    steps:
+- job: SecurityScanJob
+  displayName: Security Scan Job
+  
+  variables:
+    - group: ${{ parameters.variableGroupName }}
+    - name: environmentName
+      value: ${{ parameters.environmentName }}
+
+  steps:
+  - bash: |
+      echo "environmentName=$(environmentName)"
+      echo "runSecurityDevOpScan=$(runSecurityDevOpScan)"
+      echo "runPsRuleScan=$(runPsRuleScan)"
+    displayName: 'Display Variables'
+
+  # ----------------------------------------------------------------------------------------------------
+  - ${{ if eq(lower(variables.runPsRuleScan), 'true') }}:
     - task: UseDotNet@2
+      condition: eq(variables.runSecurityDevOpScanLower, 'true')
       displayName: 'Use dotnet 3.1'
       inputs:
         version: 3.1.x
@@ -42,11 +47,8 @@ jobs:
       displayName: 'Run Microsoft Security DevOps'
       continueOnError: true
 
-# ----------------------------------------------------------------------------------------------------
-- ${{ if eq(lower(parameters.runPsRuleScan), 'true') }}:
-  - job: BicepScanJob
-    displayName: PSRule Bicep Scan Job
-    steps:
+  # ----------------------------------------------------------------------------------------------------
+  - ${{ if eq(lower(variables.runPsRuleScan), 'true') }}:
     - task: ps-rule-assert@2
       displayName: Run PSRule Analysis
       inputs:
