@@ -57,6 +57,9 @@ az pipelines variable-group create
       region='eastus' 
       keyVaultOwnerUserId='<userSID>'
       runSecurityDevOpScan='true'
+      resourceGroupNameDev='rg-<yourInitials>-logicstda-dev'
+      resourceGroupNameQA='rg-<yourInitials>-logicstda-qa'
+      resourceGroupNameProd='rg-<yourInitials>-logicstda-prod'
 ```
 
 ---
@@ -67,7 +70,7 @@ This example was designed allow the user to modify a logic app in the portal and
 
 See: [Update Logic App Repository](/Docs/RefreshWorkflowPipeline.md)
 
----
+<!-- ---
 
 ## 6. Azurite Issues?
 
@@ -83,6 +86,6 @@ To run Azureite, you may have to open a command shell in Administrator Mode and 
 > ``` bash
 > > cd C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator
 > > azurite.exe
-> ```
+> ``` -->
 
 [Reference: Using Azurite Local Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=visual-studio)

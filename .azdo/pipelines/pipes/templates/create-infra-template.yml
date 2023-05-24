@@ -30,6 +30,17 @@ jobs:
     - name: compiledJsonFile
       value: '${{ parameters.templateFolderName }}/compiled.json'
 
+    # use the environment value to determine which resource group we should deploy to
+    - ${{ if eq(variables.environmentNameUpper, 'DEV') }}:
+      - name: resourceGroupName
+        value: $(resourceGroupNameDev)
+    - ${{ if eq(variables.environmentNameUpper, 'QA') }}:
+      - name: resourceGroupName
+        value: $(resourceGroupNameQA)
+    - ${{ if eq(variables.environmentNameUpper, 'PROD') }}:
+      - name: resourceGroupName
+        value: $(resourceGroupNameProd)
+
   steps:
   - bash: |
       appNameLower=$(echo "$(appName)" | tr '[:upper:]' '[:lower:]')
@@ -37,9 +48,9 @@ jobs:
       echo "appNameLower=$appNameLower"
       echo "##vso[task.setvariable variable=appNameLower]$appNameLower"
 
-      resourceGroupName=$(echo "rg-$(appName)-$(environmentNameLower)" | tr '[:upper:]' '[:lower:]')
-      echo "resourceGroupName=$resourceGroupName"
-      echo "##vso[task.setvariable variable=resourceGroupName]$resourceGroupName"
+      resourceGroupNameWithEnv=$(echo "rg-$(appName)-$(environmentNameLower)" | tr '[:upper:]' '[:lower:]')
+      echo "resourceGroupNameWithEnv=$resourceGroupNameWithEnv"
+      echo "##vso[task.setvariable variable=resourceGroupNameWithEnv]$resourceGroupNameWithEnv"
       
       runDateTime=$(echo $(date '+%Y%m%d-%H%M%S'))
       echo "##vso[task.setvariable variable=runDateTime]$runDateTime"
@@ -53,7 +64,11 @@ jobs:
 
   - bash: |
       echo "azureSubscription=$(azureSubscription)"
+      echo "createResourceGroup=$(createResourceGroup)"
       echo "resourceGroupName=$(resourceGroupName)"
+      echo "resourceGroupNameDev=$(resourceGroupNameDev)"
+      echo "resourceGroupNameQA=$(resourceGroupNameQA)"
+      echo "resourceGroupNameProd=$(resourceGroupNameProd)"
       echo "environmentNameUpper=$(environmentNameUpper)"
       echo "environmentNameLower=$(environmentNameLower)"
       echo "region=$(region)"
@@ -99,7 +114,7 @@ jobs:
       deploymentScope: 'Resource Group'
       azureResourceManagerConnection: $(azureSubscription)
       action: 'Create Or Update Resource Group'
-      resourceGroupName: '$(resourceGroupName)'
-      location: '$(region)'
+      resourceGroupName: $(resourceGroupName)
+      location: $(region)
       templateLocation: 'Linked artifact'
       deploymentMode: 'Incremental'
