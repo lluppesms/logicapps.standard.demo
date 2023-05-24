@@ -22,20 +22,23 @@ jobs:
     - group: ${{ parameters.variableGroupName }}
     - name: environmentName
       value: ${{ parameters.environmentName }}
-    - name: environmentName
-      value: ${{ parameters.environmentName }}
+    - name: doDevOpsScan
+      value: ${{ variables.runSecurityDevOpScan }}
+    - name: doPsRuleScan
+      value: ${{ variables.runPsRuleScan }}
 
   steps:
   - bash: |
       echo "environmentName=$(environmentName)"
       echo "runSecurityDevOpScan=$(runSecurityDevOpScan)"
       echo "runPsRuleScan=$(runPsRuleScan)"
+      echo "doDevOpsScan=$(doDevOpsScan)"
+      echo "doPsRuleScan=$(doPsRuleScan)"
     displayName: 'Display Variables'
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(runSecurityDevOpScan), 'true') }}:
+  - ${{ if eq(lower(doDevOpsScan), 'true') }}:
     - task: UseDotNet@2
-      condition: eq(variables.runSecurityDevOpScanLower, 'true')
       displayName: 'Use dotnet 3.1'
       inputs:
         version: 3.1.x
@@ -50,7 +53,7 @@ jobs:
       continueOnError: true
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(runPsRuleScan), 'true') }}:
+  - ${{ if eq(lower(doPsRuleScan), 'true') }}:
     - task: ps-rule-assert@2
       displayName: Run PSRule Analysis
       inputs:
