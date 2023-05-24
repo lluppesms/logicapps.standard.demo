@@ -22,12 +22,16 @@ jobs:
     - group: ${{ parameters.variableGroupName }}
     - name: environmentName
       value: ${{ parameters.environmentName }}
-    - name: doDevOpsScan
-      value: $(runSecurityDevOpScan)
-    - name: doPsRuleScan
-      value: $(runPsRuleScan)
 
   steps:
+  - bash: |
+      doDevOpsScan=$(echo "$(runSecurityDevOpScan)" | tr '[:upper:]' '[:lower:]')
+      echo "##vso[task.setvariable variable=doDevOpsScan]$doDevOpsScan"
+      doPsRuleScan=$(echo "$(runPsRuleScan)" | tr '[:upper:]' '[:lower:]')
+      echo "##vso[task.setvariable variable=doPsRuleScan]$doPsRuleScan"
+    displayName: 'Create Variables'
+    continueOnError: true
+
   - bash: |
       echo "environmentName=$(environmentName)"
       echo "runSecurityDevOpScan=$(runSecurityDevOpScan)"
