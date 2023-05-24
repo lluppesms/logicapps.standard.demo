@@ -1,0 +1,14 @@
+// This file is used to store private values for the project for development
+// Normally, these are created as part of the logic app deployment and can be viewed in the Azure Portal
+// See the last section of the infra/Bicep/main.bicep file for the deployment of these values
+{
+    "Values": {
+        "WORKFLOWS_SUBSCRIPTION_ID": "000000-0000-0000-0000-000000000000",
+        "WORKFLOWS_LOCATION_NAME": "eastus",
+        "WORKFLOWS_RESOURCE_GROUP_NAME": "rg-yourresourcegroupname",
+        "BLOB_STORAGE_CONNECTION_NAME": "your-blobconnection-name",
+        "BLOB_CONNECTION_RUNTIMEURL": "https://yourappname.common.logic-eastus.azure-apihub.net/apim/azureblob/000000000000",
+        "BLOB_STORAGE_ACCOUNT_NAME": "yourstorageaccountname",
+        "TRIGGER_FREQUENCY": "1"
+    }
+}

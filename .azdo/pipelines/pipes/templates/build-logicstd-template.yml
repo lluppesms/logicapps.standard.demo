@@ -43,14 +43,15 @@ jobs:
         Workflows/**
       TargetFolder: 'project_output'
 
-  - task: Bash@3
-    displayName: 'Swap local settings files with Azure versions'
-    inputs:
-      targetType: 'inline'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/project_output/Workflows'
-      script: |
-        mv azure.parameters.json parameters.json
-        mv azure.connections.json connections.json
+  # As long as you are using proper variables in your connections.json file, this should not be needed!
+  # - task: Bash@3
+  #   displayName: 'Swap local settings files with Azure versions'
+  #   inputs:
+  #     targetType: 'inline'
+  #     workingDirectory: '$(System.DefaultWorkingDirectory)/project_output/Workflows'
+  #     script: |
+  #       mv azure.parameters.json parameters.json
+  #       mv azure.connections.json connections.json
 
   - task: ArchiveFiles@2
     displayName: 'Create project zip'

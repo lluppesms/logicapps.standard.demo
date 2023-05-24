@@ -1,0 +1,11 @@
+{
+    "Values": {
+        "WORKFLOWS_SUBSCRIPTION_ID": "a0f86c93-146a-4534-b83e-49090394aa78",
+        "WORKFLOWS_LOCATION_NAME": "eastus",
+        "WORKFLOWS_RESOURCE_GROUP_NAME": "rg-logappstd-design",
+        "BLOB_STORAGE_CONNECTION_NAME": "lll-logicstda-demo-blobconnection",
+        "BLOB_CONNECTION_RUNTIMEURL": "https://d0550650dbf6f152.15.common.logic-eastus.azure-apihub.net/apim/azureblob/7a4a22db784b4f4697750994fbb85afc",
+        "BLOB_STORAGE_ACCOUNT_NAME": "llllogicstdademostrblobq",
+        "TRIGGER_FREQUENCY": "1"
+    }
+}
