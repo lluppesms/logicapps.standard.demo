@@ -116,11 +116,12 @@ jobs:
     #   run: 
     #     tree ${{ env.GITHUB_ACTION_PATH }}
 
-    - name: Swap parameters files with Azure version
-      working-directory: ./project_output/Workflows/
-      run: |-
-        mv azure.parameters.json parameters.json
-        mv azure.connections.json connections.json
+    # As long as you are using proper variables in your connections.json file, this should not be needed!
+    # - name: Swap parameters files with Azure version
+    #     working-directory: ./project_output/Workflows/
+    #     run: |-
+    #       mv azure.parameters.json parameters.json
+    #       mv azure.connections.json connections.json
    
     - name: Zip files
       run: 7z u ${{ runner.temp }}/${{ env.artifactZipFile }} ./project_output/Workflows/*
