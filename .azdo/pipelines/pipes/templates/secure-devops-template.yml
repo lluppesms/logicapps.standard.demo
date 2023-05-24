@@ -43,7 +43,7 @@ jobs:
     displayName: 'Display Variables'
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(variables.doDevOpsScan), 'true') }}:
+  - ${{ if or(eq(variables.doDevOpsScan, 'true'), eq(variables.doDevOpsScan, true)) }}:
     - task: UseDotNet@2
       displayName: 'Use dotnet 3.1'
       inputs:
@@ -59,7 +59,7 @@ jobs:
       continueOnError: true
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(variables.doPsRuleScan), 'true') }}:
+  - ${{ if or(eq(variables.doPsRuleScan, 'true'), eq(variables.doPsRuleScan, true)) }}:
     - task: ps-rule-assert@2
       displayName: Run PSRule Analysis
       inputs:
