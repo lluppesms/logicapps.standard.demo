@@ -79,6 +79,7 @@ jobs:
   # - script: az bicep build --file $(templateFile) --outfile $(compiledJsonFile)
   #   displayName: 'Compile Bicep file'
 
+  # - ${{ if or(eq(lower(parameters.createResourceGroup), 'true'), eq(parameters.createResourceGroup, '')) }}:
   - task: AzureCLI@2
     displayName: 'Create Resource Group'
     inputs:
