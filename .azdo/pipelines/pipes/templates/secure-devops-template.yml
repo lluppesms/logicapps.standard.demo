@@ -22,6 +22,8 @@ jobs:
     - group: ${{ parameters.variableGroupName }}
     - name: environmentName
       value: ${{ parameters.environmentName }}
+    - name: environmentName
+      value: ${{ parameters.environmentName }}
 
   steps:
   - bash: |
@@ -31,7 +33,7 @@ jobs:
     displayName: 'Display Variables'
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(variables.runPsRuleScan), 'true') }}:
+  - ${{ if eq(lower(runSecurityDevOpScan), 'true') }}:
     - task: UseDotNet@2
       condition: eq(variables.runSecurityDevOpScanLower, 'true')
       displayName: 'Use dotnet 3.1'
@@ -48,7 +50,7 @@ jobs:
       continueOnError: true
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(variables.runPsRuleScan), 'true') }}:
+  - ${{ if eq(lower(runPsRuleScan), 'true') }}:
     - task: ps-rule-assert@2
       displayName: Run PSRule Analysis
       inputs:

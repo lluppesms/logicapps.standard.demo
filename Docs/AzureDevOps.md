@@ -42,9 +42,7 @@ These Azure DevOps YML files were designed to run as multi-stage environment dep
 
 ## 4. Creating the variable group "LogicAppDemo"
 
-To create this variable groups, customize and run this command in the Azure Cloud Shell.
-
-This example sends a text message so you will want to have a Twilio account set up if you want to test with that.
+You can create this variable group manually, or you can customize and run this command in the Azure Cloud Shell.
 
 ``` bash
 az pipelines variable-group create 
@@ -56,10 +54,11 @@ az pipelines variable-group create
       azureSubscription='<yourSubscriptionName/serviceConnectionName>' 
       region='eastus' 
       keyVaultOwnerUserId='<userSID>'
-      runSecurityDevOpScan='true'
       resourceGroupNameDev='rg-<yourInitials>-logicstda-dev'
       resourceGroupNameQA='rg-<yourInitials>-logicstda-qa'
       resourceGroupNameProd='rg-<yourInitials>-logicstda-prod'
+      runSecurityDevOpScan='true'
+      runPsRuleScan='true'
 ```
 
 ---
@@ -70,22 +69,8 @@ This example was designed allow the user to modify a logic app in the portal and
 
 See: [Update Logic App Repository](/Docs/RefreshWorkflowPipeline.md)
 
-<!-- ---
+---
 
-## 6. Azurite Issues?
-
-For local development of Azure Functions, it is preferable to use local storage with Azurite.  However, there is a bug with Azurite 3.17, so currently if you have problems with it, the best way to fix this is to install an older version of Azureite via NPM:
->
-> ``` bash
-> npm uninstall -g azurite
-> npm install -g azurite@3.16.0
-> ```
-
-To run Azureite, you may have to open a command shell in Administrator Mode and run it like this:
-
-> ``` bash
-> > cd C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\Azure Storage Emulator
-> > azurite.exe
-> ``` -->
+## 6. References
 
 [Reference: Using Azurite Local Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=visual-studio)
