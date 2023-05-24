@@ -31,6 +31,9 @@ jobs:
       value: '${{ parameters.templateFolderName }}/compiled.json'
 
     # use the environment value to determine which resource group we should deploy to
+    - ${{ if eq(variables.environmentNameUpper, 'DEMO') }}:
+      - name: resourceGroupName
+        value: $(resourceGroupNameDemo)
     - ${{ if eq(variables.environmentNameUpper, 'DEV') }}:
       - name: resourceGroupName
         value: $(resourceGroupNameDev)
