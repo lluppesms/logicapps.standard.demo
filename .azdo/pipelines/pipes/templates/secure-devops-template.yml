@@ -34,10 +34,12 @@ jobs:
       echo "runPsRuleScan=$(runPsRuleScan)"
       echo "doDevOpsScan=$(doDevOpsScan)"
       echo "doPsRuleScan=$(doPsRuleScan)"
+      echo "variables.doDevOpsScan=$(variables.doDevOpsScan)"
+      echo "variables.doPsRuleScan=$(variables.doPsRuleScan)"
     displayName: 'Display Variables'
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(doDevOpsScan), 'true') }}:
+  - ${{ if eq(lower(variables.doDevOpsScan), 'true') }}:
     - task: UseDotNet@2
       displayName: 'Use dotnet 3.1'
       inputs:
@@ -53,7 +55,7 @@ jobs:
       continueOnError: true
 
   # ----------------------------------------------------------------------------------------------------
-  - ${{ if eq(lower(doPsRuleScan), 'true') }}:
+  - ${{ if eq(lower(variables.doPsRuleScan), 'true') }}:
     - task: ps-rule-assert@2
       displayName: Run PSRule Analysis
       inputs:
