@@ -23,9 +23,9 @@ jobs:
     - name: environmentName
       value: ${{ parameters.environmentName }}
     - name: doDevOpsScan
-      value: ${{ variables.runSecurityDevOpScan }}
+      value: $(runSecurityDevOpScan)
     - name: doPsRuleScan
-      value: ${{ variables.runPsRuleScan }}
+      value: $(runPsRuleScan)
 
   steps:
   - bash: |
