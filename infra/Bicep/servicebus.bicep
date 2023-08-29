@@ -3,19 +3,25 @@
 // --------------------------------------------------------------------------------
 param serviceBusName string = 'myservicebusname'
 param location string = resourceGroup().location
+param topicNames array = [ 'topic1Name' ]
+param queueNames array = ['queue1Name', 'queue2Name']
 param commonTags object = {}
 
-param queueNames array = ['queue1Name', 'queue2Name']
+@description('The workspace to store audit logs.')
+param workspaceId string = ''
 
 // --------------------------------------------------------------------------------
 var templateTag = { TemplateFile: '~serviceBus.bicep' }
 var tags = union(commonTags, templateTag)
 
 // --------------------------------------------------------------------------------
-resource svcBusResource 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
+resource serviceBusResource 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
   name: serviceBusName
   location: location
   tags: tags
+  identity: {
+    type: 'SystemAssigned'
+  }
   sku: {
     name: 'Basic'
     tier: 'Basic'
@@ -28,8 +34,8 @@ resource svcBusResource 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
   }
 }
 
-resource svcBusRootManageSharedAccessKeyResource 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-01-01-preview' = {
-  parent: svcBusResource
+resource serviceBusAccessKeyResource 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-01-01-preview' = {
+  parent: serviceBusResource
   name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
@@ -40,8 +46,13 @@ resource svcBusRootManageSharedAccessKeyResource 'Microsoft.ServiceBus/namespace
   }
 }
 
-resource svcBusQueueResource 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = [for queueName in queueNames: {
-  parent: svcBusResource
+resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2017-04-01' = [for topicName in topicNames: {
+  name: topicName
+  parent: serviceBusResource
+}]
+
+resource serviceBusQueueResource 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = [for queueName in queueNames: {
+  parent: serviceBusResource
   name: queueName
   properties: {
     maxMessageSizeInKilobytes: 256
@@ -61,8 +72,54 @@ resource svcBusQueueResource 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-
 }]
 
 // --------------------------------------------------------------------------------
-var serviceBusEndpoint = '${svcBusResource.id}/AuthorizationRules/RootManageSharedAccessKey' 
-output name string = svcBusResource.name
-output id string = svcBusResource.id
-output apiVersion string = svcBusResource.apiVersion
-output endpoint string = serviceBusEndpoint
+resource serviceBusAuditLogging 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${serviceBusResource.name}-auditlogs'
+  scope: serviceBusResource
+  properties: {
+    workspaceId: workspaceId
+    logs: [
+      {
+        category: 'OperationalLogs'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+      {
+        category: 'RuntimeAuditLogs'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+    ]
+  }
+}
+
+resource serviceBusMetricLogging 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${serviceBusResource.name}-metrics'
+  scope: serviceBusResource
+  properties: {
+    workspaceId: workspaceId
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+        retentionPolicy: {
+          days: 30
+          enabled: true 
+        }
+      }
+    ]
+  }
+}
+
+// --------------------------------------------------------------------------------
+var serviceBusEndpoint = '${serviceBusResource.id}/AuthorizationRules/RootManageSharedAccessKey' 
+output name string = serviceBusResource.name
+output id string = serviceBusResource.id
+output apiVersion string = serviceBusResource.apiVersion
+output serviceBusEndpoint string = serviceBusEndpoint
+output endpoint string = serviceBusResource.properties.serviceBusEndpoint
