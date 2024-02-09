@@ -34,17 +34,18 @@ jobs:
   # ----------------------------------------------------------------------------------------------------
   # This *should* work, but doesn't...
   # - ${{ if eq(variables.runSecurityDevOpScan, 'true') }}:
+  # - task: UseDotNet@2
+  #   displayName: 'Use dotnet 3.1'
+  #   inputs:
+  #     version: 3.1.x        
+  # - task: UseDotNet@2
+  #   displayName: 'Use dotnet 6.0'
+  #   inputs:
+  #     version: 6.0.x
   - task: UseDotNet@2
-    condition: eq(variables.runSecurityDevOpScan, 'true')
-    displayName: 'Use dotnet 3.1'
+    displayName: 'Use dotnet 8.0'
     inputs:
-      version: 3.1.x
-      
-  - task: UseDotNet@2
-    condition: eq(variables.runSecurityDevOpScan, 'true')
-    displayName: 'Use dotnet 6.0'
-    inputs:
-      version: 6.0.x
+      version: 8.0.x
 
   - task: MicrosoftSecurityDevOps@1
     condition: eq(variables.runSecurityDevOpScan, 'true')
